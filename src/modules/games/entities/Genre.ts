@@ -7,22 +7,18 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 
-import { User } from '../../users/entities/User';
-import { Genre } from './Genre';
+import { Game } from './Game';
 
-@Entity('games')
-export class Game {
+@Entity('genres')
+export class Genre {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
   @Column()
   title: string;
 
-  @ManyToMany(() => User, (user) => user.games)
-  users: User[];
-
-  @ManyToMany(() => Genre, (genre) => genre.games)
-  genres: Genre[];
+  @ManyToMany(() => Game, (game) => game.genres)
+  games: Game[];
 
   @CreateDateColumn()
   created_at: Date;
