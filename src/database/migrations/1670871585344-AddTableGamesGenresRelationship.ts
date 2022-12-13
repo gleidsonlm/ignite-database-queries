@@ -1,4 +1,4 @@
-import {MigrationInterface, QueryRunner, Table, TableForeignKey} from "typeorm";
+import {Index, MigrationInterface, QueryRunner, Table, TableForeignKey, TableIndex} from "typeorm";
 
 export class AddTableGamesGenresRelationship1670871585344 implements MigrationInterface {
 
@@ -26,6 +26,7 @@ export class AddTableGamesGenresRelationship1670871585344 implements MigrationIn
                 referencedColumnNames: ['id'],
             })
         )
+
         await queryRunner.createForeignKey(
             'games_genres',
             new TableForeignKey({
@@ -33,7 +34,7 @@ export class AddTableGamesGenresRelationship1670871585344 implements MigrationIn
                 referencedTableName: 'genres',
                 referencedColumnNames: ['id'],
             })
-        )        
+        )
     }
 
     public async down(queryRunner: QueryRunner): Promise<void> {

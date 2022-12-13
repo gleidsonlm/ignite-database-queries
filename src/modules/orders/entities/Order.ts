@@ -9,21 +9,22 @@ import {
 } from 'typeorm';
 
 import { Game } from '../../games/entities/Game';
-import { Order } from '../../orders/entities/Order';
+import { User } from '../../users/entities/User';
+import { Product } from './Product';
 
-@Entity('users')
-export class User {
+@Entity('orders')
+export class Order {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
   @Column()
-  first_name: string;
+  number: number;
 
   @Column()
-  last_name: string;
+  usersId: string;
 
   @Column()
-  email: string;
+  status: string;
 
   @CreateDateColumn()
   created_at: Date;
@@ -31,9 +32,13 @@ export class User {
   @UpdateDateColumn()
   updated_at: Date;
 
-  @ManyToMany(() => Game, (game) => game.users)
-  games: Game[];
+  @ManyToMany(() => User, (user) => user.orders)
+  @JoinTable()
+  users: User[];
 
-  @ManyToMany(() => Order, (order) => order.users)
-  orders: Order[];
+  @ManyToMany(() => Product, (products) => products.orders)
+  @JoinTable()
+  products: Order[];
+
+
 }

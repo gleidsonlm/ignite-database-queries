@@ -2,13 +2,17 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  JoinTable,
   ManyToMany,
+  ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
 
-import { User } from '../../users/entities/User';
 import { Genre } from './Genre';
+import { User } from '../../users/entities/User';
+import { Product } from '../../orders/entities/Product'
 
 @Entity('games')
 export class Game {
@@ -18,15 +22,21 @@ export class Game {
   @Column()
   title: string;
 
-  @ManyToMany(() => User, (user) => user.games)
-  users: User[];
-
-  @ManyToMany(() => Genre, (genre) => genre.games)
-  genres: Genre[];
-
   @CreateDateColumn()
   created_at: Date;
 
   @UpdateDateColumn()
   updated_at: Date;
+
+  @ManyToMany(() => Genre, (genre) => genre.games)
+  @JoinTable()
+  genres: Genre[];
+
+  @ManyToMany(() => User, (user) => user.games)
+  @JoinTable()
+  users: User[];
+
+  @OneToMany(() => Product, (products) => products.game)
+  @JoinTable()
+  products: Product[];
 }
